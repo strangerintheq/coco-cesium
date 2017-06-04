@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cesium based coco</title>
+    <link rel="stylesheet" href="Widgets/widgets.css"/>
+    <link rel="stylesheet" href="app.css"/>
+    <script src="Cesium.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script src="app.js"></script>
+    <script>
+        Events.post(Events.CREATE_LAYER, 'abc');
+        var l = 0.3;
+
+        for (var i=0; i<1000; i++) {
+            var x = Math.random()*50;
+            var y = Math.random()*50;
+
+            Events.post(Events.CREATE_GEO_JSON_OBJECT, {
+                id: 'rect_'+i,
+                type: "Feature",
+                geometry: {
+                    type: "LineString",
+                    coordinates: [
+                        [x, y], [x+l, y], [x+l, y+l], [x, y+l], [x, y]
+                    ]
+                },
+                properties: {
+                    layer: 'abc',
+                    extrude: true
+                }
+            });
+
+        }
+
+
+        Events.post(Events.CREATE_GEO_JSON_OBJECT, {
+            id: 123456,
+            type: "Feature",
+            properties: {
+                name: 'Лахта центр',
+                layer: 'abc'
+            },
+            geometry: {
+                type: "Point",
+                coordinates: [30.177974, 59.987078, 462]
+            }
+        });
+
+        // Events.post(Events.DESTROY_LAYER, 'abc');
+
+    </script>
+</body>
+</html>
