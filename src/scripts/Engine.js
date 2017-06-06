@@ -1,6 +1,8 @@
 window.CESIUM_BASE_URL = './';
 
 var Cesium = window.Cesium;
+Cesium.loadWithXhr.load = require('./XhrPatch').load;
+Cesium.GroundPrimitive.initializeTerrainHeights = require('./GroundPrimitivePatch');
 
 var options = {
     // imageryProvider: Cesium.createTileMapServiceImageryProvider({

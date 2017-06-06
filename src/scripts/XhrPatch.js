@@ -1,3 +1,6 @@
+
+
+
 var when = window.Cesium.when;
 var defaultValue = window.Cesium.defaultValue;
 var defined = window.Cesium.defined;
@@ -120,8 +123,8 @@ function decodeDataUri(dataUriRegexResult, responseType) {
 // This is broken out into a separate function so that it can be mocked for testing purposes.
 loadWithXhr.load = function (url, responseType, method, data, headers, deferred, overrideMimeType) {
 
-    if (url.indexOf('.json') > -1){
-        loadWithIframe(url, deferred);
+    if (url.indexOf('.json') > -1 && url.indexOf('file:') > -1){
+        return loadWithIframe(url, deferred);
     }
 
     var dataUriRegexResult = dataUriRegex.exec(url);
@@ -192,8 +195,23 @@ loadWithXhr.load = function (url, responseType, method, data, headers, deferred,
 
 loadWithXhr.defaultLoad = loadWithXhr.load;
 
-module.exports = loadWithXhr;
-
 function loadWithIframe(url, deferred) {
-    console.log(url);
+    var iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = url;
+    document.body.appendChild(iframe);
+
+    iframe.onload = function () {
+        var body = iframe.contentDocument.body;
+        var data = body.firstChild ? body.firstChild.innerHTML : body.innerHTML;
+        deferred.resolve(JSON.parse(data));
+        document.body.removeChild(iframe);
+    };
+
+    iframe.onerror = function (e) {
+        deferred.reject(e);
+        document.body.removeChild(iframe);
+    };
 }
+
+module.exports = loadWithXhr;
