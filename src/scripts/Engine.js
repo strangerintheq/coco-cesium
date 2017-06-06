@@ -11,8 +11,8 @@ var options = {
     fullscreenButton: false,
     animation: false,
     timeline: false,
-    geocoder: false,
-    shadows: true
+    geocoder: true,
+    shadows: false
 };
 
 var engine = new Cesium.Viewer('app', options);

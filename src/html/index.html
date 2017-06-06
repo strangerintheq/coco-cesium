@@ -11,30 +11,6 @@
     <div id="app"></div>
     <script src="app.js"></script>
     <script>
-        Events.post(Events.CREATE_LAYER, 'abc');
-        var l = 0.3;
-
-        for (var i=0; i<1000; i++) {
-            var x = Math.random()*50;
-            var y = Math.random()*50;
-
-            Events.post(Events.CREATE_GEO_JSON_OBJECT, {
-                id: 'rect_'+i,
-                type: "Feature",
-                geometry: {
-                    type: "LineString",
-                    coordinates: [
-                        [x, y], [x+l, y], [x+l, y+l], [x, y+l], [x, y]
-                    ]
-                },
-                properties: {
-                    layer: 'abc',
-                    extrude: true
-                }
-            });
-
-        }
-
 
         Events.post(Events.CREATE_GEO_JSON_OBJECT, {
             id: 123456,
@@ -49,8 +25,47 @@
             }
         });
 
-        // Events.post(Events.DESTROY_LAYER, 'abc');
 
+        Events.post(Events.CREATE_GEO_JSON_OBJECT, {
+            id: 1234567,
+            type: "Feature",
+            properties: {
+                name: 'Лахта центр',
+                layer: 'abc'
+            },
+            geometry: {
+                type: "MultiLineString",
+                coordinates: [
+                    [[30.177974, 59.987078, 462], [30.177975, 59.987079, 0]],
+                    [[30.177974, 59.987078, 462], [30.177975, 59.987077, 0]],
+                    [[30.177974, 59.987078, 462], [30.177973, 59.987077, 0]],
+                    [[30.177974, 59.987078, 462], [30.177973, 59.987079, 0]]
+                ]
+            }
+        });
+
+        Events.post(Events.CREATE_GEO_JSON_OBJECT, {
+            type: "Feature",
+            id: 98443,
+            geometry: {
+                type: "Polygon",
+                coordinates: [
+                    [
+                        [86.5531, 27.5917],
+                        [88.5531, 27.5917],
+                        [88.5531, 29.5917],
+                        [86.5531, 29.5917],
+                        [86.5531, 27.5917]]
+                ]
+            },
+            properties: {
+                extrude: true,
+                verticals: true,
+                altitude: 4000,
+                tooltip: "everest",
+                layer: 'polygons'
+            }
+        });
     </script>
 </body>
 </html>

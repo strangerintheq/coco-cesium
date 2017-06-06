@@ -16,7 +16,7 @@ TaskBuilder.task('styles')
     .dest();
 
 TaskBuilder.task('resources')
-    .src('../node_modules/cesium/Build/Cesium/**')
+    .src('../node_modules/cesium/Build/CesiumUnminified/**')
     .dest();
 
 // TaskBuilder
