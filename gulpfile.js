@@ -5,10 +5,6 @@ TaskBuilder.task('app')
     //.removeEmptyLines()
     .dest();
 
-// TaskBuilder.task('example-js')
-//     .webpack('scripts/example/example.js', false)
-//     .dest();
-
 TaskBuilder.task('styles')
     .src('styles/**')
     .stylus()
@@ -18,12 +14,6 @@ TaskBuilder.task('styles')
 TaskBuilder.task('resources')
     .src('../node_modules/cesium/Build/CesiumUnminified/**')
     .dest();
-
-// TaskBuilder
-//     .task('example-html')
-//     .src('html/example.html')
-//     .fileInclude()
-//     .dest();
 
 TaskBuilder
     .task('default')
