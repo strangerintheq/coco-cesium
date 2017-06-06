@@ -13,18 +13,18 @@ var options = {
     fullscreenButton: false,
     animation: false,
     timeline: false,
-    geocoder: true,
+    geocoder: false,
     shadows: false
 };
 
 var engine = new Cesium.Viewer('app', options);
 
-var cesiumTerrainProviderMeshes = new Cesium.CesiumTerrainProvider({
-    url: 'https://assets.agi.com/stk-terrain/v1/tilesets/world/tiles',
-    requestWaterMask: true,
-    requestVertexNormals: true
-});
-
-engine.terrainProvider = cesiumTerrainProviderMeshes;
+// var cesiumTerrainProviderMeshes = new Cesium.CesiumTerrainProvider({
+//     url: 'https://assets.agi.com/stk-terrain/v1/tilesets/world/tiles',
+//     requestWaterMask: true,
+//     requestVertexNormals: true
+// });
+//
+// engine.terrainProvider = cesiumTerrainProviderMeshes;
 
 module.exports = engine;

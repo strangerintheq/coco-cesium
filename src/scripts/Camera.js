@@ -3,7 +3,7 @@ var Cesium = window.Cesium;
 var scene = engine.scene;
 var cameraController = scene.screenSpaceCameraController;
 cameraController.zoomEventTypes = Cesium.CameraEventType.WHEEL;
-cameraController.tiltEventTypes = Cesium.CameraEventType.RIGHT_DRAG;
+cameraController.tiltEventTypes = [Cesium.CameraEventType.RIGHT_DRAG, Cesium.CameraEventType.PINCH];
 cameraController.enableLook = false;
 cameraController.minimumTrackBallHeight = -1;
 
