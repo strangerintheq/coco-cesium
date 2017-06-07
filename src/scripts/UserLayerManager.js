@@ -14,7 +14,13 @@ Events.listen(Events.HAS_LAYER, function (id) {
 });
 
 Events.listen(Events.CREATE_GEO_JSON_OBJECT, function (geoJson) {
-    Cesium.GeoJsonDataSource.load(geoJson).then(function (datSource) {
+    var options = {
+        stroke: Cesium.Color.HOTPINK,
+        fill: Cesium.Color.PINK,
+        strokeWidth: 5,
+        markerSymbol: '?'
+    };
+    Cesium.GeoJsonDataSource.load(geoJson, options).then(function (datSource) {
         addGeoJson(datSource, geoJson);
     }).otherwise(error);
 });
