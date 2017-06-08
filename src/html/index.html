@@ -12,6 +12,18 @@
     <script src="app.js"></script>
     <script>
 
+        Events.post(Events.CREATE_TEXT, {
+            id: 123456144,
+            type: "Text",
+            properties: {
+                text: 'Лахта центр',
+                layer: 'abc'
+            },
+            geometry: {
+                coordinates: [30.177974, 59.987078, 0]
+            }
+        });
+
         Events.post(Events.CREATE_GEO_JSON_OBJECT, {
             id: 123456,
             type: "Feature",
@@ -25,13 +37,14 @@
             }
         });
 
-
         Events.post(Events.CREATE_GEO_JSON_OBJECT, {
             id: 1234567,
             type: "Feature",
             properties: {
                 name: 'Лахта центр',
-                layer: 'abc'
+                layer: 'abc',
+                stroke: '#aabbcc',
+                width: 3
             },
             geometry: {
                 type: "MultiLineString",
@@ -67,6 +80,8 @@
                 layer: 'polygons'
             }
         });
+
+
     </script>
 </body>
 </html>

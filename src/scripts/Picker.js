@@ -5,27 +5,34 @@ new Cesium.ScreenSpaceEventHandler(engine.scene.canvas)
     .setInputAction(moveHandler, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
 function moveHandler(movement) {
-    var cartesian = engine.camera.pickEllipsoid(movement.endPosition, engine.scene.globe.ellipsoid);
-    if (cartesian) {
-        var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
-        //var longitudeString = Cesium.Math.toDegrees(cartographic.longitude).toFixed(2);
-        //var latitudeString = Cesium.Math.toDegrees(cartographic.latitude).toFixed(2);
-    }
+    pickEllipsoidAndPostEventWithLocation(movement.endPosition, Events.LOCATION_CHANGED);
+    pickObjectAndPostEventWithId(movement.endPosition, Events.OBJECT_MOUSE_OVER);
 }
 
 new Cesium.ScreenSpaceEventHandler(engine.scene.canvas)
     .setInputAction(clickHandler, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
 function clickHandler(click) {
+    pickEllipsoidAndPostEventWithLocation(click.position, Events.LOCATION_CLICK);
+    pickObjectAndPostEventWithId(click.position, Events.OBJECT_MOUSE_CLICK);
+}
 
-    var cartesian = engine.camera.pickEllipsoid(click.position, engine.scene.globe.ellipsoid);
+
+function pickEllipsoidAndPostEventWithLocation(position, event){
+    var cartesian = engine.camera.pickEllipsoid(position, engine.scene.globe.ellipsoid);
     if (cartesian) {
         var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
-        Events.post(Events.LOCATION_CLICK, cartographic);
+        Events.post(event, {
+            longitude: Cesium.Math.toDegrees(cartographic.longitude).toFixed(10),
+            latitude: Cesium.Math.toDegrees(cartographic.latitude).toFixed(10),
+            altitude: cartographic.height
+        });
     }
+}
 
-    var pickedObject = engine.scene.pick(click.position);
-    if (Cesium.defined(pickedObject)) {
-        Events.post(Events.OBJECT_MOUSE_CLICK, pickedObject.id.id);
+function pickObjectAndPostEventWithId(position, event) {
+    var object = engine.scene.pick(position);
+    if (Cesium.defined(object) && object.id) {
+        Events.post(event, object.id.id || object.id);
     }
 }

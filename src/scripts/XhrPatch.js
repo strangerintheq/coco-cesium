@@ -1,4 +1,4 @@
-
+// костыль для загрузки json через протокол file
 
 
 var when = window.Cesium.when;

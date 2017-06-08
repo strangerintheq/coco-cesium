@@ -1,7 +1,7 @@
 var loadJson = require('./XhrPatch');
 var defined = window.Cesium.defined;
 var buildModuleUrl = window.Cesium.buildModuleUrl;
-
+// костыль для загрузки json через протокол file
 module.exports = function() {
 
     var GroundPrimitive = window.Cesium.GroundPrimitive;

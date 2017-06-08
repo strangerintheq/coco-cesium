@@ -63,7 +63,7 @@ function rotateVertical(camera, angle) {
 
             var tangent = Cartesian3.cross(constrainedAxis, p, rotateVertScratchTan);
             camera.rotate(tangent, angle);
-            console.log(angle);
+            //console.log(angle);
         } else if ((northParallel && angle < 0) || (southParallel && angle > 0)) {
             camera.rotate(camera.right, angle);
         }

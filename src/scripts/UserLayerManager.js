@@ -2,6 +2,8 @@ var Cesium = window.Cesium;
 var Events = require('./Events');
 var LAYER_PREFIX = 'layer_';
 var OBJECT_PREFIX = 'object_';
+
+var labels = engine.scene.primitives.add(new Cesium.LabelCollection());
 var layers = {};
 var objects = {};
 
@@ -13,16 +15,35 @@ Events.listen(Events.HAS_LAYER, function (id) {
     return layers.hasOwnProperty(LAYER_PREFIX + id);
 });
 
+
+Events.listen(Events.CREATE_TEXT, function (text) {
+    var p = text.geometry.coordinates;
+    labels.add({
+        id: text.id,
+        position: Cesium.Cartesian3.fromDegrees(p[0], p[1], p[2] || 0),
+        text: text.properties.text
+    });
+});
+
 Events.listen(Events.CREATE_GEO_JSON_OBJECT, function (geoJson) {
-    var options = {
-        stroke: Cesium.Color.HOTPINK,
-        fill: Cesium.Color.PINK,
-        strokeWidth: 5,
-        markerSymbol: '?'
-    };
-    Cesium.GeoJsonDataSource.load(geoJson, options).then(function (datSource) {
-        addGeoJson(datSource, geoJson);
-    }).otherwise(error);
+    Cesium.GeoJsonDataSource.load(geoJson, {
+        stroke: color('stroke'),
+        fill: color('fill'),
+        strokeWidth: geoJson.properties.width || 2,
+        markerSymbol: 'x'
+    }).then(function (dataSource) {
+        engine.dataSources.add(dataSource);
+        if (geoJson.id) objects[OBJECT_PREFIX + geoJson.id] = dataSource;
+        var layer = layers[LAYER_PREFIX + geoJson.properties.layer];
+        if (layer) layer.objects.push(dataSource);
+    }).otherwise(function (error) {
+        console.error(error);
+    });
+
+    function color(propertyName) {
+        var cssColor = geoJson.properties[propertyName];
+        return cssColor ? Cesium.Color.fromCssColorString(cssColor) : Cesium.Color.WHITE;
+    }
 });
 
 Events.listen(Events.DESTROY_LAYER, function (id) {
@@ -61,10 +82,5 @@ function error(error) {
     console.error(error);
 }
 
-function addGeoJson(dataSource, geoJson) {
-    engine.dataSources.add(dataSource);
-    if (geoJson.id) objects[OBJECT_PREFIX + geoJson.id] = dataSource;
-    var layer = layers[LAYER_PREFIX + geoJson.properties.layer];
-    if (layer) layer.objects.push(dataSource);
-}
+
 
